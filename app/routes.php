@@ -27,3 +27,7 @@ Route::post('/bonanza/post-link-spied-booth', array('as' => 'bonanza.postLinkSpi
 
 Route::get('/bonanza/get-data-and-export-csv', array('as' => 'bonanza.getDataAndExportToCSV', 'uses' => 'BonanzaController@getDataAndExportToCSV'));
 Route::post('/bonanza/post-data-and-export-csv', array('as' => 'bonanza.postDataAndExportToCSV', 'uses' => 'BonanzaController@postDataAndExportToCSV'));
+
+
+Route::get('/bonanza/get-items-by-keyword', array('as' => 'bonanza.getItemByKeyWord', 'uses' => 'BonanzaController@getItemByKeyWord'));
+Route::post('/bonanza/post-items-by-keyword', array('as' => 'bonanza.postItemByKeyWord', 'uses' => 'BonanzaController@postItemByKeyWord'));

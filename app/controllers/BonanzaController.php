@@ -130,4 +130,39 @@ class BonanzaController extends BaseController {
         return Redirect::route('bonanza.getDataAndExportToCSV');
     }
 
+    public function getItemByKeyWord()
+    {
+        return View::make('bonanza.getItemsByKeyWord', array('page_title' => 'Bonanza: Get items by keyword'));
+    }
+
+    public function postItemByKeyWord()
+    {
+        $keywords = Input::get('keywords');
+        $entriesPerPage = Input::get('entriesPerPage');
+        $pageNumber = Input::get('pageNumber');
+
+        $dev_name = "NjIhzHCob5vuQ9Z";
+        $api_url = "https://api.bonanza.com/api_requests/standard_request";
+        $headers = array("X-BONANZLE-API-DEV-NAME: " . $dev_name);
+        $paginationInput['entriesPerPage'] = $entriesPerPage;
+        $paginationInput['pageNumber'] = $pageNumber;
+        $args = array("paginationInput"=> $paginationInput, "keywords" => $keywords);
+        $post_fields = "findItemsByKeywordsRequest=" .  json_encode($args);
+        echo "Request: $post_fields \n";
+        $connection = curl_init($api_url);
+        $curl_options = array(CURLOPT_HTTPHEADER=>$headers, CURLOPT_POSTFIELDS=>$post_fields,
+            CURLOPT_POST=>1, CURLOPT_RETURNTRANSFER=>1);  # data will be returned as a string
+        curl_setopt_array($connection, $curl_options);
+        $json_response = curl_exec($connection);
+        if (curl_errno($connection) > 0) {
+            echo curl_error($connection) . "\n";
+            exit(2);
+        }
+        curl_close($connection);
+        $response = json_decode($json_response,true);
+        dd($response["findItemsByKeywordsResponse"]["item"]);
+        return Redirect::route('bonanza.getItemByKeyWord', array('items' => $response["findItemsByKeywordsResponse"]["item"]));
+
+    }
+
 }

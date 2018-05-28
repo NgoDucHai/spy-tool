@@ -14,6 +14,12 @@
                 "link"  =>  route('bonanza.getDataAndExportToCSV'),
                 "status" => "Completed",
             ),
+
+            array(
+                "mission" => "Bonanza - Get iems by key word",
+                "link"  =>  route('bonanza.getItemByKeyWord'),
+                "status" => "In process",
+            ),
         );
     ?>
 
